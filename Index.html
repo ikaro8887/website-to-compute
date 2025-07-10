@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>T.C.H.O.L.A. - Agência Paranormal Gamer</title>
+  <style>
+    body {
+      background-color: #0c0c0c;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(45deg, #00ffcc, #ff00ff);
+      text-align: center;
+      padding: 20px;
+      color: black;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: #111;
+      padding: 10px;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: #00ffcc;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    nav button:hover {
+      color: #ff00ff;
+    }
+
+    .tab {
+      display: none;
+      padding: 30px;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .btn {
+      background-color: #ff00ff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background-color: #00ffcc;
+      color: black;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #1a1a1a;
+      color: #00ffcc;
+      border: 1px solid #333;
+      border-radius: 6px;
+    }
+
+    .post, .card {
+      background-color: #111;
+      padding: 15px;
+      border-left: 5px solid #ff00ff;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+    .card {
+      width: 250px;
+      display: inline-block;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .card h3 {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .expanded {
+      background-color: #222;
+      padding: 20px;
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+      background-color: #111;
+    }
+
+    .anomaly-info {
+      margin-top: 15px;
+      color: #ff00ff;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>T.C.H.O.L.A.</h1>
+  <p><i>Tropa Caçadora de Horrores Ocultos em Linhas de Algoritmo</i></p>
+</header>
+
+<nav>
+  <button onclick="showTab('inicio')">Início</button>
+  <button onclick="showTab('casos')">Casos Investigados</button>
+  <button onclick="showTab('atualizacoes')">Atualizações</button>
+  <button onclick="showTab('criar_anomalia')">Criar Anomalia</button>
+  <button onclick="showTab('anomalias')">Anomalias Documentadas</button>
+</nav>
+
+<div class="tab active" id="inicio">
+  <h2>👾 Bem-vindo à T.C.H.O.L.A.</h2>
+  <p>Agência responsável por investigar anomalias bizarras em jogos como Minecraft, Roblox e qualquer lugar onde códigos criam monstros.</p>
+</div>
+
+<div class="tab" id="casos">
+  <h2>📂 Casos Investigados: <span id="contador">0</span></h2>
+  <div id="posts"></div>
+</div>
+
+<div class="tab" id="atualizacoes">
+  <h2>📝 Atualizações</h2>
+  <div id="listarAtualizacoes"></div>
+  <button class="btn" onclick="exibirFormularioCriarAtualizacao()">Adicionar Atualização</button>
+  <div id="formCriarAtualizacao" style="display:none;">
+    <textarea id="textoAtualizacao" placeholder="Escreva a atualização aqui..."></textarea>
+    <button class="btn" onclick="adicionarAtualizacao()">Publicar Atualização</button>
+  </div>
+</div>
+
+<div class="tab" id="criar_anomalia">
+  <h2>✍️ Criar/Editar Anomalia</h2>
+  <div id="senhaCriarAnomalia">
+    <input type="password" id="senhaCriacaoAnomalia" placeholder="Digite a senha para acessar">
+    <button class="btn" onclick="verificarSenhaCriacaoAnomalia()">Entrar</button>
+  </div>
+
+  <div id="opcoesCriarEditarAnomalia" style="display: none;">
+    <button class="btn" onclick="exibirFormularioCriarAnomalia()">Criar Anomalia</button>
+    <button class="btn" onclick="exibirFormularioEditarAnomalia()">Editar Anomalia</button>
+  </div>
+
+  <div id="formCriarAnomalia" style="display:none;">
+    <div id="anomaliasExistentesContainer" style="display: none;">
+      <select id="anomaliasExistentes"></select>
+    </div>
+    <input type="text" id="nomeAnomalia" placeholder="Nome da Anomalia">
+    <select id="ameacaAnomalia">
+      <option value="Pacífico">Pacífico</option>
+      <option value="Médio">Médio</option>
+      <option value="Perigoso">Perigoso</option>
+      <option value="Desconhecido">Desconhecido</option>
+    </select>
+    <input type="text" id="imagemAnomalia" placeholder="Link da Imagem">
+    <textarea id="descricaoAnomalia" placeholder="Descrição completa (aceita HTML)"></textarea>
+    <button class="btn" onclick="adicionarOuAtualizarAnomalia()">Publicar Anomalia</button>
+  </div>
+</div>
+
+<div class="tab" id="anomalias">
+  <h2>📁 Anomalias Documentadas</h2>
+  <div id="listaAnomalias"></div>
+</div>
+
+<footer>
+  © 2025 T.C.H.O.L.A. — “A lenda do erro é real.”
+</footer>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function verificarSenhaCriacaoAnomalia() {
+    const senha = document.getElementById("senhaCriacaoAnomalia").value;
+    if (senha === "flub9") {
+      document.getElementById("senhaCriarAnomalia").style.display = "none";
+      document.getElementById("opcoesCriarEditarAnomalia").style.display = "block";
+      carregarAnomaliasParaEdicao();
+    } else {
+      alert("Senha incorreta.");
+    }
+  }
+
+  function exibirFormularioCriarAnomalia() {
+    document.getElementById('formCriarAnomalia').style.display = 'block';
+    document.getElementById('anomaliasExistentesContainer').style.display = 'none';
+  }
+
+  function exibirFormularioEditarAnomalia() {
+    document.getElementById('formCriarAnomalia').style.display = 'block';
+    document.getElementById('anomaliasExistentesContainer').style.display = 'block';
+    carregarAnomaliasParaEdicao();
+  }
+
+  function adicionarOuAtualizarAnomalia() {
+    const nome = document.getElementById("nomeAnomalia").value;
+    const ameaca = document.getElementById("ameacaAnomalia").value;
+    const imagem = document.getElementById("imagemAnomalia").value;
+    const descricao = document.getElementById("descricaoAnomalia").value;
+
+    if (!nome || !imagem || !descricao) return alert("Preencha todos os campos.");
+
+    let anomalias = JSON.parse(localStorage.getItem("anomalias") || "[]");
+    const select = document.getElementById("anomaliasExistentes");
+    if (document.getElementById("anomaliasExistentesContainer").style.display === "block") {
+      const idx = select.selectedIndex;
+      anomalias[idx] = { nome, ameaca, imagem, descricao };
+    } else {
+      anomalias.push({ nome, ameaca, imagem, descricao });
+    }
+
+    localStorage.setItem("anomalias", JSON.stringify(anomalias));
+    carregarAnomalias();
+    document.getElementById("nomeAnomalia").value = "";
+    document.getElementById("imagemAnomalia").value = "";
+    document.getElementById("descricaoAnomalia").value = "";
+    alert("Anomalia salva!");
+  }
+
+  function carregarAnomalias() {
+    const lista = JSON.parse(localStorage.getItem("anomalias") || "[]");
+    const container = document.getElementById("listaAnomalias");
+    container.innerHTML = "";
+    lista.forEach((a, i) => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `<img src="${a.imagem}" /><h3>${a.nome}</h3><button class='btn' onclick='apagarAnomalia(${i})'>Apagar</button>`;
+      div.onclick = () => exibirDetalhesAnomalia(i);
+      container.appendChild(div);
+    });
+  }
+
+  function carregarAnomaliasParaEdicao() {
+    const select = document.getElementById("anomaliasExistentes");
+    const lista = JSON.parse(localStorage.getItem("anomalias") || "[]");
+    select.innerHTML = "";
+    lista.forEach((a, i) => {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = a.nome;
+      select.appendChild(option);
+    });
+  }
+
+  function exibirDetalhesAnomalia(index) {
+    const lista = JSON.parse(localStorage.getItem("anomalias") || "[]");
+    const a = lista[index];
+    const container = document.getElementById("listaAnomalias");
+    container.innerHTML = `<div class="expanded"><h3>${a.nome} [${a.ameaca}]</h3><img src="${a.imagem}" style="max-width:300px"><div class="anomaly-info">${a.descricao}</div></div>`;
+  }
+
+  function apagarAnomalia(index) {
+    const senha = prompt("Senha para apagar:");
+    if (senha === "flub9") {
+      let lista = JSON.parse(localStorage.getItem("anomalias") || "[]");
+      lista.splice(index, 1);
+      localStorage.setItem("anomalias", JSON.stringify(lista));
+      carregarAnomalias();
+    }
+  }
+
+  function exibirFormularioCriarAtualizacao() {
+    const senha = prompt("Digite a senha para atualizar:");
+    if (senha === "flub9") {
+      document.getElementById("formCriarAtualizacao").style.display = "block";
+    }
+  }
+
+  function adicionarAtualizacao() {
+    const texto = document.getElementById("textoAtualizacao").value;
+    if (!texto) return alert("Escreva algo!");
+
+    let lista = JSON.parse(localStorage.getItem("atualizacoes") || "[]");
+    lista.push(texto);
+    localStorage.setItem("atualizacoes", JSON.stringify(lista));
+    carregarAtualizacoes();
+    document.getElementById("textoAtualizacao").value = "";
+  }
+
+  function carregarAtualizacoes() {
+    const lista = JSON.parse(localStorage.getItem("atualizacoes") || "[]");
+    const container = document.getElementById("listarAtualizacoes");
+    container.innerHTML = "";
+    lista.forEach((txt, index) => {
+      const div = document.createElement("div");
+      div.className = "post";
+      div.innerHTML = `${txt}<br><button class='btn' onclick='apagarAtualizacao(${index})'>Apagar</button>`;
+      container.appendChild(div);
+    });
+  }
+
+  function apagarAtualizacao(index) {
+    const senha = prompt("Senha para apagar:");
+    if (senha === "flub9") {
+      let lista = JSON.parse(localStorage.getItem("atualizacoes") || "[]");
+      lista.splice(index, 1);
+      localStorage.setItem("atualizacoes", JSON.stringify(lista));
+      carregarAtualizacoes();
+    }
+  }
+
+  window.onload = () => {
+    carregarAnomalias();
+    carregarAtualizacoes();
+  };
+</script>
+</body>
+</html>
